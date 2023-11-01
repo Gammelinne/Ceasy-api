@@ -54,11 +54,13 @@ The template is specifically designed to handle user management, providing a rob
 1. **MVC Model and Validation Files**
    - Project organization based on the MVC model.
    - Validation files to ensure proper data types.
-   - 
+   -
+
 ### Real-time Communication
 
 1. **Socket.io Integration**
    - Implementation of WebSockets for real-time bidirectional communication.
+
 ## Routes
 
 ```typescript
@@ -109,6 +111,7 @@ Route.group(() => {
 2. **Migration to AdonisJS v6 (Upcoming)**
    - Anticipating the release of AdonisJS v6 in the coming weeks.
    - Planned migration to AdonisJS v6 as soon as it is officially released, ensuring compatibility and taking advantage of the latest features.
+
 ## Configuration and Usage
 
 _Refer to the AdonisJS doc for more information_
