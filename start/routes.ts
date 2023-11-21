@@ -38,6 +38,7 @@
 |
 */
 import Route from '@ioc:Adonis/Core/Route'
+import User from 'App/Models/User'
 
 /* User Routes */
 Route.group(() => {
@@ -75,3 +76,20 @@ Route.group(() => {
 Route.group(() => {
   Route.post('/google/redirect', 'AuthController.handleGoogleRedirect')
 })
+
+/* Test relationship */
+
+/*
+Route.get('users/bite/:id', async ({ params, response }) => {
+  // Trouver un user par son id
+  const user = await User.findOrFail(params.id)
+
+  // Charger ses posts
+  await user.load('postAndComment')
+
+  // Retourner le user avec ses posts
+  return response.ok({
+    user: user,
+  })
+})
+*/

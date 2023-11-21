@@ -9,11 +9,11 @@ Ws.boot()
 */
 
 Ws.io.on('connection', (socket) => {
-  socket.on('join', async (userId) => {
-    console.log(userId)
-    const user = await User.findBy('id', userId)
+  socket.on('join', async (username) => {
+    console.log(username)
+    const user = await User.findBy('username', username)
     if (user) {
-      socket.join(userId)
+      socket.join(username)
     } else {
       socket.emit('error', 'User not found')
     }

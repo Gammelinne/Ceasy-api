@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, HasMany, column, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import VerifyEmail from 'App/Mailers/VerifyEmail'
 import ResetPasswordEmail from 'App/Mailers/ResetPasswordEmail'
+import PostAndComment from './PostAndComment'
 export default class User extends BaseModel {
   @column({ isPrimary: true })
   public id: string
@@ -33,11 +34,23 @@ export default class User extends BaseModel {
   @column.dateTime({ columnName: 'email_verified_at' })
   public emailVerifiedAt?: DateTime | null
 
+  @column({ columnName: 'zip' })
+  public zip?: String | null
+
+  @column({ columnName: 'address' })
+  public address?: String | null
+
+  @column({ columnName: 'city' })
+  public city?: String | null
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @hasMany(() => PostAndComment)
+  public postAndComment: HasMany<typeof PostAndComment>
 
   public verifyEmail() {
     new VerifyEmail(this).send()
