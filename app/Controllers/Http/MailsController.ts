@@ -23,7 +23,6 @@ export default class MailsController {
       }
     } catch (error) {
       // Gérer les erreurs ici
-      console.error(error)
       return '<h1>EN : Error please retry or contact administrator</h1>'
     }
   }
