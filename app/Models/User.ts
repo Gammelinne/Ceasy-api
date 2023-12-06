@@ -34,15 +34,6 @@ export default class User extends BaseModel {
   @column.dateTime({ columnName: 'email_verified_at' })
   public emailVerifiedAt?: DateTime | null
 
-  @column({ columnName: 'zip' })
-  public zip?: String | null
-
-  @column({ columnName: 'address' })
-  public address?: String | null
-
-  @column({ columnName: 'city' })
-  public city?: String | null
-
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

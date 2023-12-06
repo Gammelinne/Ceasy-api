@@ -5,19 +5,26 @@ import Ws from 'App/Services/Ws'
 
 export default class MailsController {
   /* Verify Email */
-  public async verifyEmail({ params, request, response }: HttpContextContract) {
-    //return '<h1>It's work</h1>'
-    if (request.hasValidSignature()) {
-      User.findByOrFail('email', params.email).then(async (user) => {
+  public async verifyEmail({ params, request }: HttpContextContract) {
+    try {
+      if (request.hasValidSignature()) {
+        const user = await User.findByOrFail('email', params.email)
+
         if (user.emailVerifiedAt) {
-          response.badRequest({ message: 'Email already verified' })
+          return '<h1>EN: Email Already verified</h1><h1>FR: Email déjà verifié</h1>'
         } else {
           user.emailVerifiedAt = DateTime.now()
-          await user.save().then(() => {
-            Ws.io.to(user.username).emit('emailVerified')
-          })
+          await user.save()
+          Ws.io.to(user.email).emit('emailVerified')
+          return '<h1>EN : Email verified, you can close this window</h1><h1>Fr : Email verifié, vous pouvez faire cette fenetre</h1>'
         }
-      })
+      } else {
+        return '<h1>EN: Invalid Signature</h1><h1>FR: Signature invalide</h1>'
+      }
+    } catch (error) {
+      // Gérer les erreurs ici
+      console.error(error)
+      return '<h1>EN : Error please retry or contact administrator</h1>'
     }
   }
   /* Resend a verification email */
@@ -32,17 +39,21 @@ export default class MailsController {
           response.ok({ message: 'Verification email sent successfully' })
         }
       })
-      .catch(() => response.notFound({ message: 'Verification email failed' }))
+      .catch(() => response.badRequest({ message: 'Verification email failed' }))
   }
 
   /* Send Email to reset user password */
   public async resetPasswordEmail({ request, response }: HttpContextContract) {
     const { email } = request.only(['email'])
     await User.findBy('email', email).then(async (user) => {
-      if (user) {
+      if (user && !user?.googleId) {
         user.resetPassword()
+        response.ok({ message: 'Password reset email sent successfully' })
+      } else if (user && user?.googleId) {
+        response.badRequest({ message: "You can't do that with a google account" })
+      } else {
+        response.ok({ message: 'Password reset email sent successfully' })
       }
     })
-    response.ok({ message: 'Password reset email sent successfully' })
   }
 }

@@ -6,7 +6,6 @@ export default class HandleServerError {
     try {
       await next()
     } catch (error) {
-      //log uniquement si erreur 500
       if (error.status === 500 || error.status === undefined) {
         const log = new Log()
         log.id = uuidv4()
