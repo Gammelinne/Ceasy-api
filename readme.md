@@ -87,15 +87,6 @@ Route.group(() => {
   Route.post('/reset-password-email', 'MailsController.resetPasswordEmail')
 }).middleware('throttle:global')
 
-/* Post Routes */
-Route.group(() => {
-  Route.get('/posts', 'PostsandCommentsController.index')
-  Route.get('/posts/:id', 'PostsandCommentsController.show')
-  Route.post('/posts', 'PostsandCommentsController.store')
-  Route.put('/posts/:id', 'PostsandCommentsController.update')
-  Route.delete('/posts/:id', 'PostsandCommentsController.destroy')
-}).middleware(['auth', 'throttle:global'])
-
 /* Extern call */
 Route.group(() => {
   Route.post('/google/redirect', 'AuthController.handleGoogleRedirect')

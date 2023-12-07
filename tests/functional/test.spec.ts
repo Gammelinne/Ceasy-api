@@ -67,5 +67,3 @@ test('Login Test with Dummy User', async ({ client }) => {
   response.assertStatus(200)
   response.assertTextIncludes('token')
 })
-
-/* Post Tests */
